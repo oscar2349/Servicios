@@ -1,26 +1,26 @@
+package springboot.backend.apirest.models.entity;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package springboot.backend.apirest.models.entity;
 
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,12 +28,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "proveedoresservicio", catalog = "mydb", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Proveedoresservicio.findAll", query = "SELECT p FROM Proveedoresservicio p")
-    , @NamedQuery(name = "Proveedoresservicio.findByIdProveedoresServicio", query = "SELECT p FROM Proveedoresservicio p WHERE p.idProveedoresServicio = :idProveedoresServicio")
-    , @NamedQuery(name = "Proveedoresservicio.findByNombre", query = "SELECT p FROM Proveedoresservicio p WHERE p.nombre = :nombre")
-    , @NamedQuery(name = "Proveedoresservicio.findByApellido", query = "SELECT p FROM Proveedoresservicio p WHERE p.apellido = :apellido")})
 public class Proveedoresservicio implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,20 +36,15 @@ public class Proveedoresservicio implements Serializable {
     @Basic(optional = false)
     @Column(name = "idProveedoresServicio")
     private Integer idProveedoresServicio;
-    @Column(name = "Nombre")
+    @Column(name = "nombre")
     private String nombre;
-    @Column(name = "Apellido")
+    @Column(name = "apellido")
     private String apellido;
-    @JoinTable(name = "zonatrabajo_has_proveedoresservicio", joinColumns = {
-        @JoinColumn(name = "ProveedoresServicio_idProveedoresServicio", referencedColumnName = "idProveedoresServicio")}, inverseJoinColumns = {
-        @JoinColumn(name = "ZonaTrabajo_idZonaTrabajo", referencedColumnName = "idZonaTrabajo")})
-    @ManyToMany
-    private List<Zonatrabajo> zonatrabajoList;
-    @JoinTable(name = "proveedoresservicio_has_servicios", joinColumns = {
-        @JoinColumn(name = "ProveedoresServicio_idProveedoresServicio", referencedColumnName = "idProveedoresServicio")}, inverseJoinColumns = {
-        @JoinColumn(name = "Servicios_idServicios", referencedColumnName = "idServicios")})
-    @ManyToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proveedoresservicio")
     private List<Servicios> serviciosList;
+    @JoinColumn(name = "zonaTrabajo_idZonaTrabajo", referencedColumnName = "idZonaTrabajo")
+    @ManyToOne(optional = false)
+    private Zonatrabajo zonatrabajo;
 
     public Proveedoresservicio() {
     }
@@ -88,16 +77,6 @@ public class Proveedoresservicio implements Serializable {
         this.apellido = apellido;
     }
 
-    @XmlTransient
-    public List<Zonatrabajo> getZonatrabajoList() {
-        return zonatrabajoList;
-    }
-
-    public void setZonatrabajoList(List<Zonatrabajo> zonatrabajoList) {
-        this.zonatrabajoList = zonatrabajoList;
-    }
-
-    @XmlTransient
     public List<Servicios> getServiciosList() {
         return serviciosList;
     }
@@ -106,29 +85,13 @@ public class Proveedoresservicio implements Serializable {
         this.serviciosList = serviciosList;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idProveedoresServicio != null ? idProveedoresServicio.hashCode() : 0);
-        return hash;
+    public Zonatrabajo getZonatrabajo() {
+        return zonatrabajo;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Proveedoresservicio)) {
-            return false;
-        }
-        Proveedoresservicio other = (Proveedoresservicio) object;
-        if ((this.idProveedoresServicio == null && other.idProveedoresServicio != null) || (this.idProveedoresServicio != null && !this.idProveedoresServicio.equals(other.idProveedoresServicio))) {
-            return false;
-        }
-        return true;
+    public void setZonatrabajo(Zonatrabajo zonatrabajo) {
+        this.zonatrabajo = zonatrabajo;
     }
 
-    @Override
-    public String toString() {
-        return "com.mycompany.mavenproject1.Proveedoresservicio[ idProveedoresServicio=" + idProveedoresServicio + " ]";
-    }
     
 }

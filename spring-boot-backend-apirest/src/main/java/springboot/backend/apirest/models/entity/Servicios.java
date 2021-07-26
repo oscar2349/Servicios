@@ -14,13 +14,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,13 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "servicios", catalog = "mydb", schema = "")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Servicios.findAll", query = "SELECT s FROM Servicios s")
-    , @NamedQuery(name = "Servicios.findByIdServicios", query = "SELECT s FROM Servicios s WHERE s.idServicios = :idServicios")
-    , @NamedQuery(name = "Servicios.findByNombreServicio", query = "SELECT s FROM Servicios s WHERE s.nombreServicio = :nombreServicio")
-    , @NamedQuery(name = "Servicios.findByDescripcion", query = "SELECT s FROM Servicios s WHERE s.descripcion = :descripcion")
-    , @NamedQuery(name = "Servicios.findByValorBase", query = "SELECT s FROM Servicios s WHERE s.valorBase = :valorBase")})
+
 public class Servicios implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,16 +34,17 @@ public class Servicios implements Serializable {
     @Basic(optional = false)
     @Column(name = "idServicios")
     private Integer idServicios;
-    @Column(name = "NombreServicio")
+    @Column(name = "nombreServicio")
     private String nombreServicio;
-    @Column(name = "Descripcion")
+    @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "ValorBase")
     private String valorBase;
-    @ManyToMany(mappedBy = "serviciosList")
-    private List<Proveedoresservicio> proveedoresservicioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "serviciosidServicios")
-    private List<Ordendeservicio> ordendeservicioList;
+    @JoinColumn(name = "proveedoresServicio_idProveedoresServicio", referencedColumnName = "idProveedoresServicio")
+    @ManyToOne(optional = false)
+    private Proveedoresservicio proveedoresservicio;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servicios")
+    private List<Ordenservicio> ordenservicioList;
 
     public Servicios() {
     }
@@ -93,47 +85,20 @@ public class Servicios implements Serializable {
         this.valorBase = valorBase;
     }
 
-    @XmlTransient
-    public List<Proveedoresservicio> getProveedoresservicioList() {
-        return proveedoresservicioList;
+    public Proveedoresservicio getProveedoresservicio() {
+        return proveedoresservicio;
     }
 
-    public void setProveedoresservicioList(List<Proveedoresservicio> proveedoresservicioList) {
-        this.proveedoresservicioList = proveedoresservicioList;
+    public void setProveedoresservicio(Proveedoresservicio proveedoresservicio) {
+        this.proveedoresservicio = proveedoresservicio;
     }
 
-    @XmlTransient
-    public List<Ordendeservicio> getOrdendeservicioList() {
-        return ordendeservicioList;
+    public List<Ordenservicio> getOrdenservicioList() {
+        return ordenservicioList;
     }
 
-    public void setOrdendeservicioList(List<Ordendeservicio> ordendeservicioList) {
-        this.ordendeservicioList = ordendeservicioList;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idServicios != null ? idServicios.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Servicios)) {
-            return false;
-        }
-        Servicios other = (Servicios) object;
-        if ((this.idServicios == null && other.idServicios != null) || (this.idServicios != null && !this.idServicios.equals(other.idServicios))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.mycompany.mavenproject1.Servicios[ idServicios=" + idServicios + " ]";
+    public void setOrdenservicioList(List<Ordenservicio> ordenservicioList) {
+        this.ordenservicioList = ordenservicioList;
     }
     
 }

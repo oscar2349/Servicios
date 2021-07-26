@@ -10,10 +10,6 @@ import springboot.backend.apirest.models.entity.Proveedoresservicio;
 
 public interface IProveedores extends PagingAndSortingRepository<Proveedoresservicio, Integer>{
 
-	@Query(
-			  value = "SELECT * FROM test.order where creation_date BETWEEN ?1 AND ?2 ORDER BY creation_date DESC  ", 
-			  nativeQuery = true)
-	public List <Proveedoresservicio> findByStartDateBetween(String fechaInicial,String fechaFinal);
 	
 	
 }

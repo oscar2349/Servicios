@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface IOrdenServicioDAO {
 	
-	public Ordendeservicio findOne(Integer id);
-	public  List<Ordendeservicio> findAll();
+	public Ordenservicio findOne(Integer id);
+	public  List<Ordenservicio> findAll();
 	
 
 }

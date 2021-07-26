@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import springboot.backend.apirest.models.dao.IOrdenServicio;
 import springboot.backend.apirest.models.entity.IOrdenServicioDAO;
-import springboot.backend.apirest.models.entity.Ordendeservicio;
+import springboot.backend.apirest.models.entity.Ordenservicio;
 
 @Service
 public class OrdenServicioImpl implements IOrdenServicioDAO {
@@ -15,15 +15,15 @@ public class OrdenServicioImpl implements IOrdenServicioDAO {
 	private IOrdenServicio orderDetailDao;
 
 	
-	public Ordendeservicio findOne(Integer id) {
+	public Ordenservicio findOne(Integer id) {
 		return orderDetailDao.findById(id).orElse(null);
 	}
 	
 
 	@Override
-	public List<Ordendeservicio> findAll() {
+	public List<Ordenservicio> findAll() {
 
-		return (List<Ordendeservicio>) orderDetailDao.findAll();
+		return (List<Ordenservicio>) orderDetailDao.findAll();
 	}
 
 }

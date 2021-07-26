@@ -4,11 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import springboot.backend.apirest.models.dao.IProveedores;
 import springboot.backend.apirest.models.dao.IServicios;
-import springboot.backend.apirest.models.entity.IProveedoresDAO;
 import springboot.backend.apirest.models.entity.IServiciosDAO;
-import springboot.backend.apirest.models.entity.Proveedoresservicio;
 import springboot.backend.apirest.models.entity.Servicios;
 
 @Service
